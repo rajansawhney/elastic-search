@@ -31,10 +31,6 @@ const getSuggestedLines = async (searchText) => {
 const getMapping = async () => {
 	try {
 		console.log('mapping!!');
-		// const { body } = await esClient.transport.request({
-		// 	method: 'GET',
-		// 	path: `${INDEX_NAME}/_mapping`
-		// });
 
 		const { body } = await esClient.indices.getMapping({
 			index: INDEX_NAME
@@ -46,7 +42,23 @@ const getMapping = async () => {
 	}
 }
 
+const putMapping = async (updateIndexParams) => {
+	try {
+		console.log('mapping!!');
+
+		const { body } = await esClient.indices.putMapping({
+			index: INDEX_NAME,
+			body: updateIndexParams
+		});
+
+		return body;
+	} catch (error) {
+		return { error }
+	}
+}
+
 module.exports = {
 	getSuggestedLines,
-	getMapping
+	getMapping,
+	putMapping
 };

@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getSuggestedLines, getMapping } = require('./play_service');
+const { getSuggestedLines, getMapping, putMapping } = require('./play_service');
 
 const playRoutes = Router()
     .get('/lines', async (req, res) => {
@@ -17,6 +17,15 @@ const playRoutes = Router()
         try {
             console.log('trying to get mapping');
             const results = await getMapping();
+            res.send(results);
+        } catch (e) {
+            throw new Error('Error from routes: ', e)
+        }
+    })
+    .put('/mapping', async (req, res) => {
+        try {
+            console.log('trying to PUT mapping:', req.body);
+            const results = await putMapping(req.body);
             res.send(results);
         } catch (e) {
             throw new Error('Error from routes: ', e)
